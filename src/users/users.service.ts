@@ -12,7 +12,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private _userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   create(createUserDto: CreateUserDto) {
     try {
@@ -40,7 +40,7 @@ export class UsersService {
 
   async findOne(id: string): Promise<User | null> {
     try {
-      const user = this._userRepository.findOneBy({ userId: id });
+      const user = this._userRepository.findOneBy({ id: id });
 
       if (!user) {
         throw new Error('User not found.');

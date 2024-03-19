@@ -1,25 +1,21 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Order } from './order.entity';
+import { BaseModel } from 'models/base.model';
 
 @Entity('OrderItem')
-export class OrderItem {
-  @PrimaryGeneratedColumn('identity', {
-    generatedIdentity: 'ALWAYS',
-  })
-  orderItemId!: string;
+export class OrderItem extends BaseModel {
+  @Column()
+  Quantity: number;
 
   @Column()
-  quantity: number;
-
-  @Column()
-  unitPrice: number;
+  UnitPrice: number;
 
   @Column()
   TotalPrice: number;
 
   @Column()
-  discount: number;
+  Discount: number;
 
-  @ManyToOne(() => Order, (order) => order.orderItems)
-  order: Order;
+  @ManyToOne(() => Order, (order) => order.OrderItems)
+  Order: Order;
 }

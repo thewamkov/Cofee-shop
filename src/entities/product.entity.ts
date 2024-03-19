@@ -1,21 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseModel } from 'models/base.model';
+import { Column, Entity } from 'typeorm';
 
 @Entity('Product')
-export class Product {
-  @PrimaryGeneratedColumn('identity', {
-    generatedIdentity: 'ALWAYS',
-  })
-  productId!: string;
+export class Product extends BaseModel {
+  @Column()
+  Name: string;
 
   @Column()
-  name: string;
+  Description: string;
 
   @Column()
-  description: string;
+  Price: number;
 
   @Column()
-  price: number;
-
-  @Column()
-  stockQuantity: number;
+  StockQuantity: number;
 }

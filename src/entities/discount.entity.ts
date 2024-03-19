@@ -1,16 +1,18 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne } from 'typeorm';
 import { Product } from './product.entity';
+import { BaseModel } from 'models/base.model';
 
 @Entity('Discount')
-export class Discount {
-  @PrimaryGeneratedColumn('identity', {
-    generatedIdentity: 'ALWAYS',
-  })
-  discountId!: string;
-
+export class Discount extends BaseModel {
   @Column()
-  discountPercentage: number;
+  DiscountPercentage: number;
+
+  @Column({ type: 'date' })
+  StartDate: string;
+
+  @Column({ type: 'date' })
+  EndDate: string;
 
   @OneToOne(() => Product)
-  product: Product;
+  Product: Product;
 }

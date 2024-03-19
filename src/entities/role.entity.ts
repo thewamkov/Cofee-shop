@@ -1,16 +1,12 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { User } from './user.entity';
+import { BaseModel } from 'models/base.model';
 
 @Entity('Role')
-export class Role {
-  @PrimaryGeneratedColumn('identity', {
-    generatedIdentity: 'ALWAYS',
-  })
-  id!: string;
-
+export class Role extends BaseModel {
   @Column('varchar', { length: 16 })
-  roleName!: string;
+  RoleName!: string;
 
-  @OneToMany(() => User, (user) => user.role)
-  users: User[];
+  @OneToMany(() => User, (user) => user.Role)
+  Users: User[];
 }

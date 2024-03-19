@@ -1,29 +1,19 @@
-import {
-  Column,
-  Entity,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import { User } from './user.entity';
 import { OrderItem } from './orderItem.entity';
+import { BaseModel } from 'models/base.model';
 
 @Entity('Order')
-export class Order {
-  @PrimaryGeneratedColumn('identity', {
-    generatedIdentity: 'ALWAYS',
-  })
-  orderId!: string;
-
+export class Order extends BaseModel {
   @Column()
   TotalPrice: Date;
 
   @Column()
-  discount: number;
+  Discount: number;
 
   @OneToOne(() => User)
-  user: User;
+  User: User;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order)
-  orderItems: OrderItem[];
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.Order)
+  OrderItems: OrderItem[];
 }
