@@ -1,6 +1,6 @@
 import { Column, Entity, OneToOne } from 'typeorm';
 import { Product } from './product.entity';
-import { BaseModel } from 'models/base.model';
+import { BaseModel } from '../models/base.model';
 
 @Entity('Discount')
 export class Discount extends BaseModel {

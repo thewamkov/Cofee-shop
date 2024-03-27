@@ -13,7 +13,7 @@ const config = {
   database: `${process.env.DATABASE_NAME}`,
   migrations: ['dist/migrations/*.ts'],
   entities: ['src/**/*.entity{.ts,.js}'],
-  synchronize: true,
+  synchronize: false,
   autoLoadEntities: true,
 };
 

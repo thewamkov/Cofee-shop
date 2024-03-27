@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeorm from './config/typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './modules/users.module';
+import { AuthModule } from './modules/auth.module';
+import { DiscountsModule } from './modules/discounts.module';
+import { OrdersModule } from './modules/orders.module';
+import { OrderItemsModule } from './modules/orderItems.module';
 
 @Module({
   imports: [
@@ -17,7 +18,6 @@ import { AuthModule } from './auth/auth.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const options = await configService.get('typeorm');
-
         if (!options) {
           throw new Error('TypeORM options are undefined');
         }
@@ -26,8 +26,9 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsersModule,
     AuthModule,
+    DiscountsModule,
+    OrdersModule,
+    OrderItemsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
