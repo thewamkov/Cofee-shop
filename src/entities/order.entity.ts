@@ -6,7 +6,7 @@ import { BaseModel } from '../models/base.model';
 @Entity('Order')
 export class Order extends BaseModel {
   @Column()
-  TotalPrice: Date;
+  TotalPrice: number;
 
   @Column()
   Discount: number;
@@ -16,4 +16,17 @@ export class Order extends BaseModel {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.Order)
   OrderItems: OrderItem[];
+
+  constructor(
+    totalPrice: number,
+    discount: number,
+    user: User,
+    orderItems: OrderItem[] = [],
+  ) {
+    super();
+    this.TotalPrice = totalPrice;
+    this.Discount = discount;
+    this.User = user;
+    this.OrderItems = orderItems;
+  }
 }

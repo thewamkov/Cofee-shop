@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { User } from '../entities/user.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
@@ -65,7 +65,17 @@ export class UsersService {
     }
   }
 
-  remove(id: string) {
-    return this._userRepository.delete(id);
+  remove(id: string): Promise<DeleteResult> {
+    return this._userRepository
+      .delete(id)
+      .then((deleteResult) => {
+        return deleteResult;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `DiscountsService:delete: ${JSON.stringify(error.message)}`,
+        );
+        throw error;
+      });
   }
 }

@@ -12,8 +12,8 @@ const config = {
   password: `${process.env.DATABASE_PASSWORD}`,
   database: `${process.env.DATABASE_NAME}`,
   migrations: ['dist/migrations/*.ts'],
-  entities: ['src/**/*.entity{.ts,.js}'],
-  synchronize: false,
+  entities: ['dist/**/*.entity{.ts,.js}'],
+  synchronize: true,
   autoLoadEntities: true,
 };
 

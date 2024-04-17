@@ -9,4 +9,9 @@ export class Role extends BaseModel {
 
   @OneToMany(() => User, (user) => user.Role)
   Users: User[];
+
+  constructor(RoleName: string) {
+    super();
+    this.RoleName = RoleName;
+  }
 }

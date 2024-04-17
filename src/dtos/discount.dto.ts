@@ -1,6 +1,6 @@
 export class DiscountDto {
   id: string;
-  productId: string;
+  productsId: string[];
   startDate: Date;
   endDate: Date;
 }

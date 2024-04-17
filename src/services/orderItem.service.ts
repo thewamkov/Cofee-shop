@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderItemDto } from 'src/dtos/orderItem.dto';
 import { OrderItem } from 'src/entities/orderItem.entity';
-import { Repository } from 'typeorm';
+import { DeleteResult, FindOneOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class OrderItemsService {
@@ -36,12 +36,17 @@ export class OrderItemsService {
       this.logger.log(
         `OrderItemsService:findAll : ${JSON.stringify(error.message)}`,
       );
+      throw new Error(error.message);
     }
   }
 
   async findOne(id: string): Promise<OrderItem | null> {
     try {
-      const orderItem = this._orderItemsRepository.findOneBy({ id: id });
+      const options: FindOneOptions<OrderItem> = {
+        where: { id: id },
+      };
+
+      const orderItem = await this._orderItemsRepository.findOne(options);
 
       if (!orderItem) {
         throw new Error('Discount not found.');
@@ -68,7 +73,17 @@ export class OrderItemsService {
     }
   }
 
-  remove(id: string) {
-    return this._orderItemsRepository.delete(id);
+  remove(id: string): Promise<DeleteResult> {
+    return this._orderItemsRepository
+      .delete(id)
+      .then((deleteResult) => {
+        return deleteResult;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `OrderItemsService:delete: ${JSON.stringify(error.message)}`,
+        );
+        throw error;
+      });
   }
 }

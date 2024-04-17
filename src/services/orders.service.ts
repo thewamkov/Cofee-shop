@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrderDto } from 'src/dtos/order.dto';
-import { Order } from 'src/entities/order.entity';
-import { Repository } from 'typeorm';
+import { OrderDto } from '../dtos/order.dto';
+import { Order } from '../entities/order.entity';
+import { DeleteResult, FindOneOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class OrdersService {
@@ -34,15 +34,20 @@ export class OrdersService {
       this.logger.log(
         `OrdersService:findAll : ${JSON.stringify(error.message)}`,
       );
+      throw new Error(error.message);
     }
   }
 
   async findOne(id: string): Promise<Order | null> {
     try {
-      const order = this._ordersRepository.findOneBy({ id: id });
+      const options: FindOneOptions<Order> = {
+        where: { id: id },
+      };
+
+      const order = await this._ordersRepository.findOne(options);
 
       if (!order) {
-        throw new Error('Discount not found.');
+        throw new Error('Order not found.');
       }
 
       return order;
@@ -64,7 +69,17 @@ export class OrdersService {
     }
   }
 
-  remove(id: string) {
-    return this._ordersRepository.delete(id);
+  remove(id: string): Promise<DeleteResult> {
+    return this._ordersRepository
+      .delete(id)
+      .then((deleteResult) => {
+        return deleteResult;
+      })
+      .catch((error) => {
+        this.logger.log(
+          `OrdersService:delete: ${JSON.stringify(error.message)}`,
+        );
+        throw error;
+      });
   }
 }

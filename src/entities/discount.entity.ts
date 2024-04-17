@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Product } from './product.entity';
 import { BaseModel } from '../models/base.model';
 
@@ -13,6 +13,19 @@ export class Discount extends BaseModel {
   @Column({ type: 'date' })
   EndDate: string;
 
-  @OneToOne(() => Product)
-  Product: Product;
+  @OneToMany(() => Product, (product) => product.Discount)
+  Products: Product[];
+
+  constructor(
+    discountPercentage: number,
+    startDate: string,
+    endDate: string,
+    products: Product[] = [],
+  ) {
+    super();
+    this.DiscountPercentage = discountPercentage;
+    this.StartDate = startDate;
+    this.EndDate = endDate;
+    this.Products = products;
+  }
 }
